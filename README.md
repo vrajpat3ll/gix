@@ -9,10 +9,7 @@ No need to install anything! You just need `python` and `git`!
 ```shell
 python path/to/gitpush.py -i <interval between 2 commits> -m <custom message for commits> 
 ```
-You can 
-```shell
-python path/to/gitpush.py --help 
-```
+You can also run  ```python path/to/gitpush.py --help``` to get help
 
 
 # Demonstration
