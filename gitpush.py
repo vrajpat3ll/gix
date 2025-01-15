@@ -74,7 +74,7 @@ def main(args):
                         print(out)
             except Exception as e:
                 print(e)
-        print(colorise("Completed running commands", "cyan"))
+        print(colorise("Completed running commands.", "cyan"))
         time.sleep(args.interval)
 
 
@@ -84,8 +84,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--interval", "-i",
         type=float,
-        default=10.0,
-        help="Interval with which you want to add commits")
+        default=300.0,
+        help="Interval (seconds) with which you want to add commits | default=300")
 
     parser.add_argument(
         "--msg", "-m",
