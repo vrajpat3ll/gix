@@ -53,7 +53,7 @@ def main(args):
             ["git", "push"],
         ]
 
-        print(logo)
+        print(logo, end="\n\n")
         print(f"Press {quit} to quit...")
         print("\033[9;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
