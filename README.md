@@ -16,4 +16,4 @@ You can also run  ```python path/to/gitpush.py --help``` to get help!
 [Watch the video here](./docs/demo.mp4)
 
 # Next steps
-Integrate OpenAI's GPT model 
+Integrate OpenAI's GPT model to get custom commit messages for each commit from it
