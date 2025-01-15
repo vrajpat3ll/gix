@@ -12,7 +12,7 @@ def main(args):
         interval_seconds (float): time gap in between 2 commits
     """
     if args.msg == None:
-        args.msg = "auto commit at" + time.asctime()
+        args.msg = "auto commit at " + time.asctime()
 
     elif args.msg.lower() == "gpt":
         while True:
