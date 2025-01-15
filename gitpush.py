@@ -48,12 +48,14 @@ def main(args):
             try:
                 out = res.stdout
                 with open("logs.log", "w+") as f:
-                    f.write(out)
-                    print(out)
+                    if out is not None:
+                        f.write(str(out))
+                        print(out)
                 out = res.stderr
                 with open("logs.log", "w+") as f:
-                    f.write(out)
-                    print(out)
+                    if out is not None:
+                        f.write(str(out))
+                        print(out)
             except Exception as e:
                 print(e)
 
