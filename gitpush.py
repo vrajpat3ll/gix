@@ -42,7 +42,7 @@ def main(args):
         ["git", "push"],
     ]
 
-    q = colorise("<CTRL+C / CMD+C>", "red")
+    quit = colorise("<CTRL+C / CMD+C>", "red")
 
     stop = False
     while not stop:
@@ -52,7 +52,7 @@ def main(args):
             os.system("clear")
 
         print(logo)
-        print(f"Press {q} to quit...")
+        print(f"Press {quit} to quit...")
 
         print("\033[9;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
@@ -74,7 +74,7 @@ def main(args):
                         print(out)
             except Exception as e:
                 print(e)
-
+        print(colorise())
         time.sleep(args.interval)
 
 
