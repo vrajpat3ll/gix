@@ -21,12 +21,9 @@ def main(args):
         msg (str): commit message
         interval_seconds (float): time gap in between 2 commits
     """
-    if args.msg == None:
-        # if no message specified, default to this
-        args.msg = "auto commit at " + time.asctime()
-
     # TODO: integrate OpenAI to generate custom commit messages
-    elif args.msg.lower() == "gpt":
+
+    if not args.msg == None and args.msg.lower() == "gpt":
         while True:
             api_key = input(
                 colorise("Please provide OpenAI's API key: ", "yellow"))
@@ -35,28 +32,33 @@ def main(args):
                         f"{api_key} ? [y/n/Enter for y]")
             if res == 'y' or res == '':
                 break
-
-    cmds = [
-        ["git", "add", "."],
-        ["git", "commit", "-m", args.msg],
-        ["git", "push"],
-    ]
+        ...
 
     quit = colorise("<CTRL+C / CMD+C>", "red")
 
     stop = False
     while not stop:
+        if args.msg == None:
+            # if no message specified, default to this
+            commit_msg = "auto commit at " + time.asctime()
+
         if is_windows():
             os.system("cls")
         elif is_linux():
             os.system("clear")
 
+        cmds = [
+            ["git", "add", "."],
+            ["git", "commit", "-m", commit_msg],
+            ["git", "push"],
+        ]
+
         print(logo)
         print(f"Press {quit} to quit...")
-
         print("\033[9;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
             time.asctime(), "green"), '\n')
+
         for cmd in cmds:
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
             res = sp.run(cmd)
@@ -74,7 +76,9 @@ def main(args):
                         print(out)
             except Exception as e:
                 print(e)
+
         print(colorise("Completed running commands.", "cyan"))
+
         time.sleep(args.interval)
 
 
