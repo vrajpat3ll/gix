@@ -23,7 +23,8 @@ def main(args):
     """
     # TODO: integrate OpenAI to generate custom commit messages
 
-    if not args.msg == None and args.msg.lower() == "gpt":
+    commit_msg = args.msg
+    if args.msg != None and args.msg.lower() == "gpt":
         while True:
             api_key = input(
                 colorise("Please provide OpenAI's API key: ", "yellow"))
