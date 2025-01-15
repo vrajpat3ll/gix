@@ -1,8 +1,17 @@
 import argparse
 import os
+import platform
 import subprocess as sp
 import time
 from colors import colorise, logo
+
+
+def is_windows():
+    return platform.system() == "Windows"
+
+
+def is_linux():
+    return platform.system() == "Linux"
 
 
 def main(args):
@@ -37,7 +46,11 @@ def main(args):
 
     stop = False
     while not stop:
-        os.system("cls")
+        if is_windows():
+            os.system("cls")
+        elif is_linux():
+            os.system("clear")
+
         print(logo)
         print(f"Press {q} to quit...")
 
@@ -82,6 +95,5 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-
 
     main(args)
