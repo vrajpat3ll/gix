@@ -55,7 +55,7 @@ def main(args):
 
         print(logo, end="\n\n")
         print(f"Press {quit} to quit...")
-        print("\033[9;1H", end='')
+        print("\033[10;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
             time.asctime(), "green"), '\n')
 
