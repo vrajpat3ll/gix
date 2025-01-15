@@ -74,7 +74,7 @@ def main(args):
                         print(out)
             except Exception as e:
                 print(e)
-        print(colorise())
+        print(colorise("Completed running commands", "cyan"))
         time.sleep(args.interval)
 
 
