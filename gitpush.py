@@ -42,7 +42,8 @@ def main(args):
 
         print("\033[9;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(time.asctime(), "green"), '\n')
-        for cmd in cmds:        
+        for cmd in cmds:  
+            print("Running ","".join(cmd for cmd in cmds))      
             res = sp.run(cmd)
                 
             try:
