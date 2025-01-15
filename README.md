@@ -6,7 +6,8 @@ Simple program to constantly push to your repo
 No need to install anything! You just need `python` and `git`!
 
 # How to run
-```
+```shell
+python path/to/gitpush.py -i <interval> 
 ```
 
 # Demonstration
