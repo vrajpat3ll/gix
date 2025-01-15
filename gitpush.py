@@ -22,7 +22,6 @@ def main(args):
             if res == 'y' or res == '':
                 break
 
-    os.system("cls")
 
     cmds = [
         ["git", "add", "."],
@@ -31,14 +30,15 @@ def main(args):
     ]
 
     q = colorise("<CTRL+C / CMD+C>", "red")
-    print(logo)
-    print(f"Press {q} to quit...")
     
     # cmds = [
     #     ["git", "status"]
     # ]
     stop = False    
     while not stop:
+        os.system("cls")
+        print(logo)
+        print(f"Press {q} to quit...")
 
         print("\033[9;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(time.asctime(), "green"), '\n')
