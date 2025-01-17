@@ -106,7 +106,7 @@ if __name__ == "__main__":
         default="gpt",
         help="custom commit message for each push | default=gpt"
     )
-    print(f"{args=}")
+
     args = parser.parse_args()
 
     main(args)
