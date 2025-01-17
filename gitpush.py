@@ -84,8 +84,8 @@ def main(args):
         print(f"Press {quit} to quit...")
         print("\033[10;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
-            time.asctime(), "green"), '\n')
-        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow"))
+            time.asctime(), "green"))
+        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
 
         for cmd in cmds:
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
