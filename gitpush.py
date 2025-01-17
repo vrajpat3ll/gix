@@ -22,9 +22,18 @@ def main(args):
         interval_seconds (float): time gap in between 2 commits
     """
     # TODO: integrate OpenAI to generate custom commit messages
+    quit = colorise("<CTRL+C / CMD+C>", "red")
+
+    if is_windows():
+        os.system("cls")
+    elif is_linux():
+        os.system("clear")
+
+    print(colorise(logo, "cyan"), end="\n\n")
+    print(f"Press {quit} to quit...")
 
     commit_msg = args.msg
-    if args.msg != None and args.msg.lower() == "gpt":
+    if args.msg.lower() == "gpt":
         while True:
             api_key = input(
                 colorise("Please provide OpenAI's API key: ", "yellow"))
@@ -35,11 +44,9 @@ def main(args):
                 break
         ...
 
-    quit = colorise("<CTRL+C / CMD+C>", "red")
-
     stop = False
     while not stop:
-        if args.msg == None:
+        if args.msg.lower() == "default":
             # if no message specified, default to this
             commit_msg = "auto commit at " + time.asctime()
 
