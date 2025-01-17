@@ -72,20 +72,6 @@ def main(args):
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
             res = sp.run(cmd)
 
-            # try:
-            #     out = res.stdout
-            #     if out is not None:
-            #         with open("logs.log", "w+") as f:
-            #             f.write(str(out))
-            #             print(out)
-            #     out = res.stderr
-            #     if out is not None:
-            #         with open("logs.log", "w+") as f:
-            #             f.write(str(out))
-            #             print(out)
-            # except Exception as e:
-            #     print(e)
-
         print(colorise("Completed running commands.", "cyan"))
 
         time.sleep(args.interval)
