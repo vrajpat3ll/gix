@@ -70,7 +70,7 @@ def main(args):
 
         for cmd in cmds:
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
-            res = sp.run(cmd)
+            res = sp.run(cmd) # find out error  
 
         print(colorise("Completed running commands.", "cyan"))
 
