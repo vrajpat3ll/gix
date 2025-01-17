@@ -1,5 +1,5 @@
 import argparse
-import os
+from os import system
 import platform
 import subprocess as sp
 import time
@@ -14,6 +14,7 @@ def is_linux():
     return platform.system() == "Linux"
 
 
+# TODO: integrate OpenAI to generate custom commit messages
 def main(args):
     """add, commit and push git changes of the current repo
 
@@ -21,14 +22,13 @@ def main(args):
         msg (str): commit message
         interval_seconds (float): time gap in between 2 commits
     """
-    # TODO: integrate OpenAI to generate custom commit messages
-    quit = colorise("<CTRL+C / CMD+C>", "red")
 
     if is_windows():
-        os.system("cls")
+        system("cls")
     elif is_linux():
-        os.system("clear")
+        system("clear")
 
+    quit = colorise("<CTRL+C / CMD+C>", "red")
     colorised_logo = colorise(logo, "cyan")
     print(colorised_logo, end="\n\n")
     print(f"Press {quit} to quit...")
@@ -52,9 +52,9 @@ def main(args):
             commit_msg = "auto commit at " + time.asctime()
 
         if is_windows():
-            os.system("cls")
+            system("cls")
         elif is_linux():
-            os.system("clear")
+            system("clear")
 
         cmds = [
             ["git", "add", "."],
@@ -72,19 +72,19 @@ def main(args):
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
             res = sp.run(cmd)
 
-            try:
-                out = res.stdout
-                if out is not None:
-                    with open("logs.log", "w+") as f:
-                        f.write(str(out))
-                        print(out)
-                out = res.stderr
-                if out is not None:
-                    with open("logs.log", "w+") as f:
-                        f.write(str(out))
-                        print(out)
-            except Exception as e:
-                print(e)
+            # try:
+            #     out = res.stdout
+            #     if out is not None:
+            #         with open("logs.log", "w+") as f:
+            #             f.write(str(out))
+            #             print(out)
+            #     out = res.stderr
+            #     if out is not None:
+            #         with open("logs.log", "w+") as f:
+            #             f.write(str(out))
+            #             print(out)
+            # except Exception as e:
+            #     print(e)
 
         print(colorise("Completed running commands.", "cyan"))
 
