@@ -15,6 +15,7 @@ def is_linux():
 
 
 # TODO: integrate OpenAI to generate custom commit messages
+# TODO: how to handle error messages?  
 def main(args):
     """add, commit and push git changes of the current repo
 
@@ -70,7 +71,7 @@ def main(args):
 
         for cmd in cmds:
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
-            res = sp.run(cmd) # find out how to handle error messages?  
+            res = sp.run(cmd) 
 
         print(colorise("Completed running commands.", "cyan"))
 
