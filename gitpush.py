@@ -108,8 +108,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "-m", "--msg",
         type=str,
-        default="gpt",
-        help="custom commit message for each push | default=gpt"
+        default="default",
+        help="custom commit message for each push | default=default"
     )
 
     args = parser.parse_args()
