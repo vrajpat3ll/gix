@@ -15,7 +15,7 @@ def is_linux():
 
 
 # TODO: integrate OpenAI to generate custom commit messages
-# TODO: how to handle error messages?  
+# TODO: how to handle error messages of a command?  
 def main(args):
     """add, commit and push git changes of the current repo
 
