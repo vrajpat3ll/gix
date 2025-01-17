@@ -1,9 +1,19 @@
 import argparse
-from os import system
+import os
 import platform
 import subprocess as sp
 import time
 from colors import colorise, logo
+
+
+USE_GPT = False
+
+
+def find_git_repo():
+    path = os.getcwd()
+    while not os.path.isdir(os.path.join(path, ".git")):
+        path = os.path.join(path, "..")
+    return os.path.dirname(os.path.join(path, ".git"))
 
 
 def is_windows():
@@ -15,7 +25,7 @@ def is_linux():
 
 
 # TODO: integrate OpenAI to generate custom commit messages
-# TODO: how to handle error messages of a command?  
+# TODO: how to handle error messages of a command?
 def main(args):
     """add, commit and push git changes of the current repo
 
@@ -24,10 +34,11 @@ def main(args):
         interval_seconds (float): time gap in between 2 commits
     """
 
+    global USE_GPT
     if is_windows():
-        system("cls")
+        os.system("cls")
     elif is_linux():
-        system("clear")
+        os.system("clear")
 
     quit = colorise("<CTRL+C / CMD+C>", "red")
     colorised_logo = colorise(logo, "cyan")
@@ -36,6 +47,7 @@ def main(args):
 
     commit_msg = args.msg
     if args.msg.lower() == "gpt":
+        USE_GPT = True
         while True:
             api_key = input(
                 colorise("Please provide OpenAI's API key: ", "yellow"))
@@ -53,9 +65,14 @@ def main(args):
             commit_msg = "auto commit at " + time.asctime()
 
         if is_windows():
-            system("cls")
+            os.system("cls")
         elif is_linux():
-            system("clear")
+            os.system("clear")
+
+        if USE_GPT:
+            ...
+            # commit_msg to be changed here each time we need to commit
+            # some call to LLM with prompt as `git status` to get a basic commit message
 
         cmds = [
             ["git", "add", "."],
@@ -68,10 +85,11 @@ def main(args):
         print("\033[10;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
             time.asctime(), "green"), '\n')
+        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow"))
 
         for cmd in cmds:
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
-            res = sp.run(cmd) 
+            res = sp.run(cmd)
 
         print(colorise("Completed running commands.", "cyan"))
 
