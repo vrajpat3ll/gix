@@ -30,7 +30,7 @@ def main(args):
                 colorise("Please provide OpenAI's API key: ", "yellow"))
             print(f"{api_key = }")
             res = input(colorise("Is this your API key?", "yellow") +
-                        f"{api_key} ? [y/n/Enter for y]")
+                        f" {api_key}\n [y/n/Enter for y] ")
             if res == 'y' or res == '':
                 break
         ...
@@ -87,16 +87,16 @@ if __name__ == "__main__":
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--interval", "-i",
+        "-i", "--interval",
         type=float,
         default=300.0,
         help="Interval (seconds) with which you want to add commits | default=300")
 
     parser.add_argument(
-        "--msg", "-m",
+        "-m", "--msg",
         type=str,
-        required=False,
-        help="custom commit message for each push"
+        default="gpt",
+        help="custom commit message for each push | default=gpt"
     )
 
     args = parser.parse_args()
