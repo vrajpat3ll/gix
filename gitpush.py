@@ -84,7 +84,7 @@ def main(args):
 
         print(colorised_logo, end="\n\n")
         print(f"Press {quit} to quit...")
-        print("\033[10;1H", end='')
+        # print("\033[10;1H", end='')
         print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
         print(colorise("[TIME] ", "green"), colorise(
             time.asctime(), "green"))
