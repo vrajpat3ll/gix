@@ -44,6 +44,8 @@ def main(args):
     colorised_logo = colorise(logo, "cyan")
     print(colorised_logo, end="\n\n")
     print(f"Press {quit} to quit...")
+    print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
+
 
     commit_msg = args.msg
     if args.msg.lower() == "gpt":
@@ -83,9 +85,9 @@ def main(args):
         print(colorised_logo, end="\n\n")
         print(f"Press {quit} to quit...")
         print("\033[10;1H", end='')
+        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
         print(colorise("[TIME] ", "green"), colorise(
             time.asctime(), "green"))
-        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
 
         for cmd in cmds:
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
