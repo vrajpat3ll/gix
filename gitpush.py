@@ -33,8 +33,8 @@ def main(args):
         msg (str): commit message
         interval_seconds (float): time gap in between 2 commits
     """
-
     global USE_GPT
+
     if is_windows():
         os.system("cls")
     elif is_linux():
@@ -44,8 +44,7 @@ def main(args):
     colorised_logo = colorise(logo, "cyan")
     print(colorised_logo, end="\n\n")
     print(f"Press {quit} to quit...")
-    print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
-
+    print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
 
     commit_msg = args.msg
     if args.msg.lower() == "gpt":
@@ -60,6 +59,7 @@ def main(args):
                 break
         ...
 
+    start = time.perf_counter()
     stop = False
     while not stop:
         if args.msg.lower() == "default":
@@ -84,8 +84,7 @@ def main(args):
 
         print(colorised_logo, end="\n\n")
         print(f"Press {quit} to quit...")
-        # print("\033[10;1H", end='')
-        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow") ,'\n')
+        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
         print(colorise("[TIME] ", "green"), colorise(
             time.asctime(), "green"))
 
@@ -93,9 +92,13 @@ def main(args):
             print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
             res = sp.run(cmd)
 
-        print(colorise("Completed running commands.", "cyan"))
+        print(colorise("✅ Completed running commands.", "cyan"))
 
-        time.sleep(args.interval)
+        interval = args.interval - (time.perf_counter() - start)
+        while interval > 0:
+            start = time.perf_counter()
+            print(colorise(f"🎯 Re-running commands in {round(interval, 1)} seconds", "cyan"), end='\r')
+            interval -= (time.perf_counter() - start)
 
 
 if __name__ == "__main__":
