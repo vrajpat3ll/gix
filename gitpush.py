@@ -29,7 +29,8 @@ def main(args):
     elif is_linux():
         os.system("clear")
 
-    print(colorise(logo, "cyan"), end="\n\n")
+    colorised_logo = colorise(logo, "cyan")
+    print(colorised_logo, end="\n\n")
     print(f"Press {quit} to quit...")
 
     commit_msg = args.msg
@@ -61,7 +62,7 @@ def main(args):
             ["git", "push"],
         ]
 
-        print(logo, end="\n\n")
+        print(colorised_logo, end="\n\n")
         print(f"Press {quit} to quit...")
         print("\033[10;1H", end='')
         print(colorise("[TIME] ", "green"), colorise(
@@ -105,7 +106,7 @@ if __name__ == "__main__":
         default="gpt",
         help="custom commit message for each push | default=gpt"
     )
-
+    print(f"{args=}")
     args = parser.parse_args()
 
     main(args)
