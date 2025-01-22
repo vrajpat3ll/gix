@@ -3,10 +3,15 @@ import os
 import platform
 import subprocess as sp
 import time
-from colors import colorise, logo
+from colors import stylise, logo
 
+# USE_GPT = False
 
-USE_GPT = False
+def read_cmds_from_file():
+    with open('commands.txt', 'r') as cmd_file:
+        cmds = cmd_file.readlines()
+        cmds = [cmd.strip().split(' ') for cmd in cmds]
+    return cmds
 
 
 def find_git_repo():
@@ -33,31 +38,31 @@ def main(args):
         msg (str): commit message
         interval_seconds (float): time gap in between 2 commits
     """
-    global USE_GPT
+    # global USE_GPT
 
     if is_windows():
         os.system("cls")
     elif is_linux():
         os.system("clear")
 
-    quit = colorise("<CTRL+C / CMD+C>", "red")
-    colorised_logo = colorise(logo, "cyan")
+    quit = stylise("<CTRL+C / CMD+C>", "red")
+    colorised_logo = stylise(logo, "cyan")
     print(colorised_logo, end="\n\n")
     print(f"Press {quit} to quit...")
-    print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
+    print(stylise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
 
     commit_msg = args.msg
-    if args.msg.lower() == "gpt":
-        USE_GPT = True
-        while True:
-            api_key = input(
-                colorise("Please provide OpenAI's API key: ", "yellow"))
-            print(f"{api_key = }")
-            res = input(colorise("Is this your API key?", "yellow") +
-                        f" {api_key}\n [y/n/Enter for y] ")
-            if res == 'y' or res == '':
-                break
-        ...
+    # if args.msg.lower() == "gpt":
+    #     USE_GPT = True
+    #     while True:
+    #         api_key = input(
+    #             stylise("Please provide OpenAI's API key: ", "yellow"))
+    #         print(f"{api_key = }")
+    #         res = input(stylise("Is this your API key?", "yellow") +
+    #                     f" {api_key}\n [y/n/Enter for y] ")
+    #         if res == 'y' or res == '':
+    #             break
+    #     ...
 
     start = time.perf_counter()
     stop = False
@@ -71,33 +76,33 @@ def main(args):
         elif is_linux():
             os.system("clear")
 
-        if USE_GPT:
-            ...
+        # if USE_GPT:
             # commit_msg to be changed here each time we need to commit
             # some call to LLM with prompt as `git status` to get a basic commit message
 
-        cmds = [
-            ["git", "add", "."],
-            ["git", "commit", "-m", commit_msg],
-            ["git", "push"],
-        ]
+        cmds = read_cmds_from_file()
+        for cmd in cmds:
+            if "$msg" in cmd: 
+                cmd[cmd.index("$msg")] = commit_msg
+            print(cmd)
 
         print(colorised_logo, end="\n\n")
         print(f"Press {quit} to quit...")
-        print(colorise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
-        print(colorise("[TIME] ", "green"), colorise(
+        print(
+            stylise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
+        print(stylise("[TIME] ", "green"), stylise(
             time.asctime(), "green"))
 
         for cmd in cmds:
-            print(colorise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
+            print(stylise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
             res = sp.run(cmd)
 
-        print(colorise("✅ Completed running commands.", "cyan"))
+        print(stylise("✅ Completed running commands.", "cyan"))
 
         interval = args.interval - (time.perf_counter() - start)
         while interval > 0:
             start = time.perf_counter()
-            print(colorise(f"🎯 Re-running commands in {round(interval, 1)} seconds", "cyan"), end='\r')
+            print(stylise(f"🎯 Re-running commands in {round(interval, 1)} seconds", "cyan"), end='\r')
             interval -= (time.perf_counter() - start)
 
 
@@ -109,14 +114,12 @@ if __name__ == "__main__":
         type=float,
         default=300.0,
         help="Interval (seconds) with which you want to add commits | default=300")
-
     parser.add_argument(
         "-m", "--msg",
         type=str,
         default="default",
         help="custom commit message for each push | default=default"
     )
-
     args = parser.parse_args()
 
     main(args)

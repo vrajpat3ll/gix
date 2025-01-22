@@ -1,4 +1,4 @@
-COLORS = {
+STYLES = {
     "bold"             : 1,
     "italic"           : 3,
     "underline"        : 4,
@@ -21,7 +21,7 @@ COLORS = {
     "inverted-white"   : 47,
 }
 
-logo = '''
+logo = r'''
    _____ _ _   ____                _      
   / ____(_) | |  _ \ _    _ /SSSS | |     
  | |    | | |_| |_) | |  | |     s| |___  
@@ -29,14 +29,14 @@ logo = '''
  | |__| | | |_| |   | |__| |s    || |  | |
   \_____| |\__|_|    \____/  SSSS/|_|  |_|'''
 
-def colorise(msg:str, color: str):
-    """add color to your string
+def stylise(msg:str, style: str):
+    """add style / color to your string
 
     Args:
-        msg (str): string to be colorised
-        color (str): style | options -> [`bold`, `italic`, `underline`, `strikethrough`, `gray`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `inverted-gray`, `inverted-red`, `inverted-green`, `inverted-yellow`, `inverted-blue`, `inverted-magenta`, `inverted-cyan`, `inverted-white`]
+        msg (str): string to be stylised
+        style (str): style | options -> [`bold`, `italic`, `underline`, `strikethrough`, `gray`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `inverted-gray`, `inverted-red`, `inverted-green`, `inverted-yellow`, `inverted-blue`, `inverted-magenta`, `inverted-cyan`, `inverted-white`]
 
     Returns:
-        str: colored string
+        str: stylised string
     """
-    return f"\033[{COLORS[color]}m" + msg + "\033[0m"
+    return f"\033[{STYLES[style]}m" + msg + "\033[0m"
