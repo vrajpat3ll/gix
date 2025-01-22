@@ -31,13 +31,14 @@ Before you begin, ensure you have the following installed on your system:
     chmod a+x build.sh
     build.sh
     ```
+4. Add the executable to PATH for easy access anywhere.
 
 # How to run
 
 ```shell
-path/to/gitpush.exe -i <interval between 2 commits> -m <custom message for commits> 
+gitpush [-i INTERVAL] [-m MSG]
 ```
-You can also run  ```python path/to/gitpush.py --help``` to get help!
+You can run  ```gitpush --help``` or ```gitpush -h``` to get help!
 
 # Next Steps
 
