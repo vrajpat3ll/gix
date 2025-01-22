@@ -3,7 +3,7 @@ import os
 import platform
 import subprocess as sp
 import time
-from colors import stylise, logo
+from styles import stylise, logo
 
 # USE_GPT = False
 
