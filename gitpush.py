@@ -84,7 +84,6 @@ def main(args):
         for cmd in cmds:
             if "$msg" in cmd: 
                 cmd[cmd.index("$msg")] = commit_msg
-            print(cmd)
 
         print(colorised_logo, end="\n\n")
         print(f"Press {quit} to quit...")
