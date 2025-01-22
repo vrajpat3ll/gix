@@ -24,12 +24,12 @@ Before you begin, ensure you have the following installed on your system:
 
 3. On Windows, run
     ```shell
-    ./build.bat
+    ./scripts/build.bat
     ```
 3. On Linux, run
     ```shell
-    chmod a+x build.sh
-    build.sh
+    chmod a+x ./scripts/build.sh
+    ./scripts/build.sh
     ```
 4. Add the executable to PATH for easy access anywhere.
 
