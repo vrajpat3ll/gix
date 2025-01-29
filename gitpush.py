@@ -5,10 +5,13 @@ import subprocess as sp
 import time
 from styles import stylise, logo
 
-# USE_GPT = False
 
 def read_cmds_from_file():
-    with open('commands.txt', 'r') as cmd_file:
+    if is_windows():
+        commands_file = 'C:\\commands\\commands.txt'
+    elif is_linux():
+        commands_file = '~/commands/commands.txt'
+    with open(commands_file, 'r') as cmd_file:
         cmds = cmd_file.readlines()
         cmds = [cmd.strip().split(' ') for cmd in cmds]
     return cmds
@@ -82,7 +85,7 @@ def main(args):
 
         cmds = read_cmds_from_file()
         for cmd in cmds:
-            if "$msg" in cmd: 
+            if "$msg" in cmd:
                 cmd[cmd.index("$msg")] = commit_msg
 
         print(colorised_logo, end="\n\n")
