@@ -8,9 +8,9 @@ from styles import stylise, logo
 
 def read_cmds_from_file():
     if is_windows():
-        commands_file = 'C:\\commands\\commands.txt'
+        commands_file = 'C:\\commands\\gitpush_commands.txt'
     elif is_linux():
-        commands_file = '~/commands/commands.txt'
+        commands_file = '~/commands/gitpush_commands.txt'
     with open(commands_file, 'r') as cmd_file:
         cmds = cmd_file.readlines()
         cmds = [cmd.strip().split(' ') for cmd in cmds]
