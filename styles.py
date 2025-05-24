@@ -21,12 +21,6 @@ STYLES = {
     "inverted-white"   : 47,
 }
 
-logo = r'''   _____ _ _   ____                _      
-  / ____(_) | |  _ \ _    _ /SSSS | |     
- | |    | | |_| |_) | |  | |     s| |___  
- | |   _| | __|  __/| |  | |\SSS\ |  __ \ 
- | |__| | | |_| |   | |__| |s    || |  | |
-  \_____| |\__|_|    \____/  SSSS/|_|  |_|'''
 
 def stylise(msg:str, style: str):
     """add style / color to your string
@@ -38,4 +32,10 @@ def stylise(msg:str, style: str):
     Returns:
         str: stylised string
     """
-    return f"\033[{STYLES[style]}m" + msg + "\033[0m"
+    try:
+        styled_msg = f"\033[{STYLES[style]}m" + msg + "\033[0m"
+    except Exception as e:
+        print("Error: incorrect style specified. Defaulting to original...")
+        return msg
+    
+    return styled_msg

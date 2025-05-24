@@ -1,39 +1,11 @@
 import argparse
-import os
-import platform
-import subprocess as sp
 import time
-from styles import stylise, logo
+from styles import stylise
+from voice_listener import listen_for_command
+from utils import *
+from message import generate_commit_message
 
 
-def read_cmds_from_file():
-    if is_windows():
-        commands_file = 'C:\\commands\\gitpush_commands.txt'
-    elif is_linux():
-        commands_file = '~/commands/gitpush_commands.txt'
-    with open(commands_file, 'r') as cmd_file:
-        cmds = cmd_file.readlines()
-        cmds = [cmd.strip().split(' ') for cmd in cmds]
-    return cmds
-
-
-def find_git_repo():
-    path = os.getcwd()
-    while not os.path.isdir(os.path.join(path, ".git")):
-        path = os.path.join(path, "..")
-    return os.path.dirname(os.path.join(path, ".git"))
-
-
-def is_windows():
-    return platform.system() == "Windows"
-
-
-def is_linux():
-    return platform.system() == "Linux"
-
-
-# TODO: integrate OpenAI to generate custom commit messages
-# TODO: how to handle error messages of a command?
 def main(args):
     """add, commit and push git changes of the current repo
 
@@ -41,87 +13,65 @@ def main(args):
         msg (str): commit message
         interval_seconds (float): time gap in between 2 commits
     """
-    # global USE_GPT
 
-    if is_windows():
-        os.system("cls")
-    elif is_linux():
-        os.system("clear")
-
-    quit = stylise("<CTRL+C / CMD+C>", "red")
-    colorised_logo = stylise(logo, "cyan")
-    print(colorised_logo, end="\n\n")
-    print(f"Press {quit} to quit...")
-    print(stylise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
+    clear_screen()
+    header()
 
     commit_msg = args.msg
-    # if args.msg.lower() == "gpt":
-    #     USE_GPT = True
-    #     while True:
-    #         api_key = input(
-    #             stylise("Please provide OpenAI's API key: ", "yellow"))
-    #         print(f"{api_key = }")
-    #         res = input(stylise("Is this your API key?", "yellow") +
-    #                     f" {api_key}\n [y/n/Enter for y] ")
-    #         if res == 'y' or res == '':
-    #             break
-    #     ...
 
-    start = time.perf_counter()
-    stop = False
-    while not stop:
-        if args.msg.lower() == "default":
-            # if no message specified, default to this
-            commit_msg = "auto commit at " + time.asctime()
+    if args.mode == "voice":
+        listen_for_command(args)
+    else:
+        start = time.perf_counter()
+        stop = False
+        while not stop:
+            clear_screen()
+            header()
 
-        if is_windows():
-            os.system("cls")
-        elif is_linux():
-            os.system("clear")
+            commit_msg = generate_commit_message(args.msg.lower())
 
-        # if USE_GPT:
-            # commit_msg to be changed here each time we need to commit
-            # some call to LLM with prompt as `git status` to get a basic commit message
+            if args.mode == "manual":
+                if confirm("Push now?"):
+                    git_commit_and_push(commit_msg, args.dry)
+            else:
+                git_commit_and_push(commit_msg, args.dry)
 
-        cmds = read_cmds_from_file()
-        for cmd in cmds:
-            if "$msg" in cmd:
-                cmd[cmd.index("$msg")] = commit_msg
+            # Display time before re-running loop
+            interval = args.interval*60 - (time.perf_counter() - start)
+            if interval <= 15:
+                interval = 15  # 15 second buffer just in case to see the commit message
+            while interval > 0:
+                start = time.perf_counter()
+                print(stylise(
+                    f"🎯 Re-running commands in {round(interval, 1)} seconds  ", "cyan"), end='\r')
+                interval -= (time.perf_counter() - start)
 
-        print(colorised_logo, end="\n\n")
-        print(f"Press {quit} to quit...")
-        print(
-            stylise(f"Working on \"{find_git_repo()}\" repo", "yellow"), '\n')
-        print(stylise("[TIME] ", "green"), stylise(
-            time.asctime(), "green"))
-
-        for cmd in cmds:
-            print(stylise("🎯 Running " + " ".join(arg for arg in cmd), "cyan"))
-            res = sp.run(cmd)
-
-        print(stylise("✅ Completed running commands.", "cyan"))
-
-        interval = args.interval - (time.perf_counter() - start)
-        while interval > 0:
-            start = time.perf_counter()
-            print(stylise(f"🎯 Re-running commands in {round(interval, 1)} seconds", "cyan"), end='\r')
-            interval -= (time.perf_counter() - start)
+    return
 
 
 if __name__ == "__main__":
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--mode",
+        choices=["interval", "manual", "voice"],
+        default="manual")
+    parser.add_argument(
         "-i", "--interval",
         type=float,
-        default=300.0,
-        help="Interval (seconds) with which you want to add commits | default=300")
+        default=5.0,
+        help="Interval (minutes) with which you want to add commits | default=5")
     parser.add_argument(
         "-m", "--msg",
         type=str,
         default="default",
-        help="custom commit message for each push | default=default"
+        help="Custom commit message for each push | default | auto | default=default"
     )
-    args = parser.parse_args()
+    parser.add_argument("-y", action='store_true',
+                        help='Do not ask for confirmation when trying to push when in voice mode')
+    parser.add_argument('--dry', action='store_true',
+                        help='Simulate git operations without running them')
 
+    args = parser.parse_args()
+    print(args)
     main(args)

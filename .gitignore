@@ -1,3 +1,5 @@
 __pycache__
 .venv
 gitpush.exe
+build
+dist

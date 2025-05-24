@@ -1,1 +1,15 @@
-pyinstaller
+altgraph==0.17.4
+certifi==2025.4.26
+charset-normalizer==3.4.2
+idna==3.10
+packaging==25.0
+pefile==2023.2.7
+PyAudio==0.2.14
+pyinstaller==6.13.0
+pyinstaller-hooks-contrib==2025.4
+pywin32-ctypes==0.2.3
+requests==2.32.3
+setuptools==80.8.0
+SpeechRecognition==3.14.3
+typing_extensions==4.13.2
+urllib3==2.4.0
