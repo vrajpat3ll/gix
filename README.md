@@ -1,8 +1,8 @@
-# GitPush
+# GiX
 
-***Automate your git workflow with GitPush and focus more on coding!***
+***Automate your git workflow with GiX and focus more on coding!***
 
-GitPush is a tool designed to streamline the process of committing and pushing changes to a Git repository. It offers multiple modes of operation, including manual, interval-based, and voice-activated commits.
+GiX is a tool designed to streamline the process of committing and pushing changes to a Git repository. It offers multiple modes of operation, including manual, interval-based, and voice-activated commits.
 
 ---
 
@@ -34,8 +34,8 @@ Before you begin, ensure the following software is installed on your system:
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/vrajpat3ll/gitpush.git
-   cd gitpush
+   git clone https://github.com/vrajpat3ll/GiX.git
+   cd GiX
    ```
 
 2. **Install Dependencies**:
@@ -53,7 +53,7 @@ Before you begin, ensure the following software is installed on your system:
 ### Basic Command
 
 ```bash
-python gitpush.py [options]
+python GiX.py [options]
 ```
 
 ### Options
@@ -76,22 +76,22 @@ python gitpush.py [options]
 
 * **Manual Commit**:
     ```bash
-    python gitpush.py --mode manual --msg "Initial commit"
+    python GiX.py --mode manual --msg "Initial commit"
     ```
 
 * **Interval Commit Every 10 Minutes**:
     ```bash
-    python gitpush.py --mode interval --interval 600 --msg auto
+    python GiX.py --mode interval --interval 600 --msg auto
     ```
 
 * **Voice-Activated Commit**:
     ```bash
-    python gitpush.py --mode voice --msg auto
+    python GiX.py --mode voice --msg auto
     ```
 
 * **Dry Run**:
     ```bash
-    python gitpush.py --msg auto --dry
+    python GiX.py --msg auto --dry
     ```
 ---
 
@@ -122,7 +122,7 @@ sudo apt-get install portaudio19-dev python3-pyaudio
 1. **Run in Voice Mode**:
 
    ```bash
-   python gitpush.py --mode voice --msg auto
+   python GiX.py --mode voice --msg auto
    ```
 
 The application listens for the word "*jarvis*" to trigger a commit and push operation.
