@@ -13,11 +13,11 @@ EOF
 fi
 pip install -r requirements.txt
 
-pyinstaller --onefile gitpush.py
+pyinstaller --onefile main.py
 
 pip uninstall -r requirements.txt
 
-rm gitpush.spec
+rm main.spec
 rm -rf build
-mv dist/gitpush.* gitpush.*
+mv dist/main.* main.*
 rm -rf dist

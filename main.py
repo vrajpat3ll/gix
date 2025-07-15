@@ -16,6 +16,7 @@ def main(args):
 
     clear_screen()
     header()
+    
 
     commit_msg = args.msg
 
@@ -30,12 +31,14 @@ def main(args):
 
             commit_msg = generate_commit_message(args.msg.lower())
 
-            if args.mode == "manual":
-                if confirm("Push now?"):
-                    git_commit_and_push(commit_msg, args.dry)
+            if args.mode == "manual" and confirm("Push now?"):
+                while not confirm(commit_msg):
+                    commit_msg = generate_commit_message(args.msg.lower())
+                    
+                git_commit_and_push(commit_msg, args.dry)
             else:
                 git_commit_and_push(commit_msg, args.dry)
-
+            
             # Display time before re-running loop
             interval = args.interval*60 - (time.perf_counter() - start)
             if interval <= 15:

@@ -6,15 +6,16 @@ import time
 
 TRIGGER_PHRASES = [
     "jarvis",
-    "high time to push"    
+    "high time to push",
+    "push it",
 ]
 
-logo = r'''   _____ _ _   ____                _      
-  / ____(_) | |  _ \ _    _ /SSSS | |     
- | |    | | |_| |_) | |  | |     s| |___  
- | |   _| | __|  __/| |  | |\SSS\ |  __ \ 
- | |__| | | |_| |   | |__| |s    || |  | |
-  \_____| |\__|_|    \____/  SSSS/|_|  |_|'''
+logo = r'''   _____   __     __
+  / ____| _\ \   / /
+ / /     (_)\ \ / /
+( (    __| | \ X /
+ \ \__/ /| | / /\ \
+  \____/ |_|/_/  \_\ '''
 
 colorised_logo = stylise(logo, "cyan")
 quit = stylise("<CTRL+C / CMD+C>", "red")
@@ -80,5 +81,6 @@ def header():
 
 
 def confirm(msg: str):
-    confirm = input(f"{msg} [Y/n]")
+    print(stylise(f"{msg}", "yellow"), end=' ')
+    confirm = input("[Y/n]")
     return confirm.lower() in ['', 'y']

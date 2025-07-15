@@ -3,3 +3,6 @@ __pycache__
 gitpush.exe
 build
 dist
+uv.lock
+pyproject.toml
+.python-version

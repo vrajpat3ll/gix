@@ -2,7 +2,6 @@ from datetime import datetime
 import json
 import logging
 import os
-import requests
 import re
 import subprocess as sp
 import requests
@@ -29,22 +28,8 @@ def generate_commit_message(seed: str):
 
         case "auto":
             diff = generate_diff('.')  # current repo only
-
-            # Read and insert diff into prompt
-            with open("prompt.txt", "r") as prompt_file:
-                prompt_lines = prompt_file.readlines()
-                try:
-                    diff_index = prompt_lines.index("<DIFF HERE>\n")
-                except ValueError:
-                    try:
-                        diff_index = prompt_lines.index("<DIFF HERE>")
-                    except:
-                        ...
-                    raise ValueError("Prompt file must contain a line with exactly '<DIFF HERE>'")
-
-                prompt_lines[diff_index] = diff + "\n"
-                base_prompt = ''.join(prompt_lines)
-
+            base_prompt = get_prompt(diff)
+            
             for attempt in range(1, MAX_RETRIES + 1):
                 payload = {
                     "model": model,
@@ -85,15 +70,47 @@ def generate_diff(git_repo_base_path: str):
     if unstaged.stderr != '' and unstaged.stderr != b'':
         logging.error(f"Couldn't get unstaged diff in repo: {base_path}")
         logging.error(f"{unstaged.stderr}")
-        return ''
 
     if staged.stderr != '' and staged.stderr != b'':
         logging.error(f"Couldn't get staged diff in repo: {base_path}")
         logging.error(f"{staged.stderr}")
-        return ''
 
     return full_diff
 
+def get_prompt(diff: str):
+    prompt_file = os.path.join( os.path.dirname(os.path.abspath(__file__)), "prompt.txt" )
+    # read and insert diff into prompt
+    with open(prompt_file, "r") as proompt_file:
+        prompt_lines = proompt_file.readlines()
+        try:
+            diff_index = prompt_lines.index("{DIFF HERE}\n")
+        except ValueError:
+            try:
+                diff_index = prompt_lines.index("{DIFF HERE}")
+            except:
+                logging.warning("Prompt file must contain a line with exactly '{DIFF HERE}'")
+                diff_index = -1
+        try:
+            url_index = prompt_lines.index("{URL}\n")
+        except ValueError:
+            try:
+                url_index = prompt_lines.index("{URL}")
+            except:
+                logging.warning("Prompt file must contain a line with exactly '{URL}'")
+                url_index = -1
+
+    # with open(os.path.join(os.path.dirname(prompt_file), "README.md"), 'r') as file:
+    #     readme = ''.join(file.readlines())
+    
+    url = sp.run(["git", "config", "--list", "|", "grep", "remote.origin.url"],  capture_output=True, text=True).stdout.removeprefix("remote.origin.url=")
+    
+    if diff_index != -1: prompt_lines[diff_index] = diff + "\n"
+    if url_index != -1: prompt_lines[url_index] = url + "\n"
+    prompt = ''.join(prompt_lines)
+    
+    with open(os.path.join(os.path.dirname(prompt_file), "log_prompt.md"), 'w') as file:
+        file.write(prompt)
+    return prompt
 
 if __name__ == "__main__":
     print(generate_commit_message("auto"))

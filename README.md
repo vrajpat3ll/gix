@@ -34,8 +34,8 @@ Before you begin, ensure the following software is installed on your system:
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/vrajpat3ll/GiX.git
-   cd GiX
+   git clone https://github.com/vrajpat3ll/gix.git
+   cd gix
    ```
 
 2. **Install Dependencies**:
@@ -53,7 +53,7 @@ Before you begin, ensure the following software is installed on your system:
 ### Basic Command
 
 ```bash
-python GiX.py [options]
+python main.py [options]
 ```
 
 ### Options
@@ -76,23 +76,24 @@ python GiX.py [options]
 
 * **Manual Commit**:
     ```bash
-    python GiX.py --mode manual --msg "Initial commit"
+    python main.py --mode manual --msg "Initial commit"
     ```
 
 * **Interval Commit Every 10 Minutes**:
     ```bash
-    python GiX.py --mode interval --interval 600 --msg auto
+    python main.py --mode interval --interval 600 --msg auto
     ```
 
 * **Voice-Activated Commit**:
     ```bash
-    python GiX.py --mode voice --msg auto
+    python main.py --mode voice --msg auto
     ```
 
 * **Dry Run**:
     ```bash
-    python GiX.py --msg auto --dry
+    python main.py --msg auto --dry
     ```
+
 ---
 
 ## Configuration
@@ -117,15 +118,13 @@ Voice commands are processed using the `speech_recognition` library.
 sudo apt-get install portaudio19-dev python3-pyaudio
 ```
 
-
-
 1. **Run in Voice Mode**:
 
    ```bash
-   python GiX.py --mode voice --msg auto
+   python main.py --mode voice --msg auto
    ```
 
-The application listens for the word "*jarvis*" to trigger a commit and push operation.
+The application listens for the word "*push it*" to trigger a commit and push operation.
 
 ---
 

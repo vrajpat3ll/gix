@@ -9,7 +9,7 @@ def listen_for_command(args):
     recognizer = sr.Recognizer()
     mic = sr.Microphone()
 
-    print(stylise("[Voice] Listening for 'git push now'...", "yellow"))
+    print(stylise(f"[Voice] Listening for '{TRIGGER_PHRASES}'...", "yellow"))
 
     with mic as source:
         recognizer.adjust_for_ambient_noise(source)
@@ -29,14 +29,19 @@ def listen_for_command(args):
                 for trigger in TRIGGER_PHRASES:
                     if trigger in command:
                         triggered = True
+                        break
                         
                 if triggered:
                     print(stylise("[Voice] Trigger phrase detected.", "yellow"))
                     
                     if args.y or confirm("Did you mean to run git push?"):
-                        git_commit_and_push(generate_commit_message(args.msg), args.dry)
+                        commit_msg = generate_commit_message(args.msg)
+                        while args.y or not confirm(commit_msg):
+                            commit_msg = generate_commit_message(args.msg.lower())
+                    
+                        git_commit_and_push(commit_msg, args.dry)
 
-                    time.sleep(2)  # Avoid double triggers
+                    time.sleep(2)  # avoid double triggers
                 else:
                     print(stylise("[Voice] No trigger detected.", "yellow"))
             except sr.WaitTimeoutError:
